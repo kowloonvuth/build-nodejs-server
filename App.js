@@ -1,5 +1,5 @@
 const express = require('express');
-
+const morgan = require('morgan');
 // express app
 const app = express();
 
@@ -11,6 +11,12 @@ app.set('view engine', 'ejs');
 
 app.listen(3000);
 
+//middleware static file
+
+app.use(express.static('public'));
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+
 app.get('/', (req, res) => {
     const blogs = [
         {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit amet consectetur'},
@@ -21,6 +27,7 @@ app.get('/', (req, res) => {
     //res.sendFile('./views/index.html', { root : __dirname});
     res.render('index', { title: 'Home', blogs});
 });
+
 
 app.get('/about', (req, res) => {
     //res.send('<p>about page</p>');
